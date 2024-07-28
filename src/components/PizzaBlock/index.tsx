@@ -4,8 +4,9 @@ interface PizzaProps {
   types: number[];
   sizes: number[];
   imageUrl: string;
+  price: number
 }
-const PizzaBlock = ({ title, types, sizes, imageUrl }: PizzaProps) => {
+const PizzaBlock = ({ title, types, sizes, imageUrl, price }: PizzaProps) => {
   const [size, setSize] = useState(0);
   const [activeType, setActiveType] = useState(0);
 
@@ -23,6 +24,7 @@ const PizzaBlock = ({ title, types, sizes, imageUrl }: PizzaProps) => {
         <ul>
           {types.map((type: number) => (
             <li
+              key={type}
               onClick={() => setActiveType(type)}
               className={activeType === type ? "active" : ""}
             >
@@ -33,6 +35,7 @@ const PizzaBlock = ({ title, types, sizes, imageUrl }: PizzaProps) => {
         <ul>
           {sizes.map((sizeNumber: number, index: number) => (
             <li
+              key={index}
               onClick={() => onSizeClick(index)}
               className={size === index ? "active" : ""}
             >
@@ -42,7 +45,7 @@ const PizzaBlock = ({ title, types, sizes, imageUrl }: PizzaProps) => {
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">от 395 ₽</div>
+        <div className="pizza-block__price">от {price} ₽</div>
         <button className="button button--outline button--add">
           <svg
             width="12"
