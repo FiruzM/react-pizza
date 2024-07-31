@@ -1,6 +1,7 @@
 import { ShoppingCart } from "lucide-react";
 import logo from "../../public/img/pizza-logo.png";
 import { Link } from "react-router-dom";
+import Search from "./Search";
 
 const Header = () => {
   return (
@@ -15,6 +16,7 @@ const Header = () => {
             </div>
           </div>
         </Link>
+        <Search />
         <div className="header__cart">
           <a href="/cart.html" className="button button--cart">
             <span>520 ₽</span>

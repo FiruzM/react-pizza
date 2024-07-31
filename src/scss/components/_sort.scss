@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 .sort {
   position: relative;
@@ -14,10 +14,12 @@
       margin-right: 8px;
     }
 
-    span {
+    button {
       color: $orange;
+      border: none;
       border-bottom: 1px dashed $orange;
       cursor: pointer;
+      background: transparent;
     }
   }
 
