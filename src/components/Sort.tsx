@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { setSort } from "../redux/slice/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../redux/store";
 
-const popupList = [
+export const popupList = [
   { name: "популярности(DESC)", sortProperty: "rating" },
   { name: "популярности(ASC)", sortProperty: "-rating" },
   { name: "цене(DESC)", sortProperty: "price" },
@@ -15,10 +15,12 @@ const Sort = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sort = useSelector((state: RootState) => state.filter.sort);
   const dispatch = useDispatch();
+
   const onClickSelected = (obj: { name: string; sortProperty: string }) => {
     dispatch(setSort(obj));
     setIsVisible((prev) => !prev);
   };
+
 
   return (
     <div className="sort">

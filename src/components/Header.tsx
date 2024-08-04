@@ -2,8 +2,14 @@ import { ShoppingCart } from "lucide-react";
 import logo from "../../public/img/pizza-logo.png";
 import { Link } from "react-router-dom";
 import Search from "./Search";
-
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 const Header = () => {
+  const { items, totalPrice } = useSelector((state: RootState) => state.cart);
+  const totalAmount = items.reduce(
+    (sum: number, obj: { count: number }) => obj.count + sum,
+    0
+  );
   return (
     <div className="header">
       <div className="container">
@@ -18,12 +24,12 @@ const Header = () => {
         </Link>
         <Search />
         <div className="header__cart">
-          <a href="/cart.html" className="button button--cart">
-            <span>520 ₽</span>
+          <Link to="cart" className="button button--cart">
+            <span>{totalPrice} ₽</span>
             <div className="button__delimiter"></div>
             <ShoppingCart />
-            <span>3</span>
-          </a>
+            <span>{totalAmount}</span>
+          </Link>
         </div>
       </div>
     </div>
