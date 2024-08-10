@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/slice/cartSlice";
 import { RootState } from "../../redux/store";
+import { useNavigate } from "react-router-dom";
 interface PizzaProps {
   id: number;
   title: string;
@@ -24,10 +25,11 @@ const PizzaBlock = ({
   const [size, setSize] = useState(0);
   const [activeType, setActiveType] = useState(0);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { items } = useSelector((state: RootState) => state.cart);
 
-  const countItem = items.find((obj) => obj.id === id);
+  const countItem = items.find((obj: { id: number }) => obj.id === id);
 
   const onSizeClick = (index: number) => {
     setSize(index);
@@ -49,7 +51,12 @@ const PizzaBlock = ({
   return (
     <div className="pizza-block">
       <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
-      <h4 className="pizza-block__title">{title}</h4>
+      <h4
+        className="pizza-block__title"
+        onClick={() => navigate(`/product/${id}`)}
+      >
+        {title}
+      </h4>
       <div className="pizza-block__selector">
         <ul>
           {types.map((type: number) => (
@@ -93,7 +100,7 @@ const PizzaBlock = ({
             />
           </svg>
           <span>Добавить</span>
-          {countItem && <i>{countItem.count}</i>}
+          {countItem && <i>{(countItem as { count: number }).count}</i>}
         </button>
       </div>
     </div>
