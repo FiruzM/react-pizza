@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../redux/slice/cartSlice";
+import { addItem, ItemTypes } from "../../redux/slice/cartSlice";
 import { RootState } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
 interface PizzaProps {
-  id: number;
+  id: string;
   title: string;
   types: number[];
   sizes: number[];
@@ -14,14 +14,14 @@ interface PizzaProps {
 
 const typesName = ["тонкое", "традиционное"];
 
-const PizzaBlock = ({
+const PizzaBlock: React.FC<PizzaProps> = ({
   id,
   title,
   types,
   sizes,
   imageUrl,
   price,
-}: PizzaProps) => {
+}) => {
   const [size, setSize] = useState(0);
   const [activeType, setActiveType] = useState(0);
   const dispatch = useDispatch();
@@ -29,19 +29,20 @@ const PizzaBlock = ({
 
   const { items } = useSelector((state: RootState) => state.cart);
 
-  const countItem = items.find((obj: { id: number }) => obj.id === id);
+  const countItem = items.find((obj) => obj.id === id);
 
   const onSizeClick = (index: number) => {
     setSize(index);
   };
 
-  const item = {
+  const item: ItemTypes = {
     id,
     imageUrl,
     title,
     price,
     size: sizes[size],
     type: typesName[activeType],
+    count: 0
   };
 
   const onClickAdd = () => {
@@ -70,7 +71,7 @@ const PizzaBlock = ({
           ))}
         </ul>
         <ul>
-          {sizes.map((sizeNumber: number, index: number) => (
+          {sizes.map((sizeNumber, index) => (
             <li
               key={index}
               onClick={() => onSizeClick(index)}

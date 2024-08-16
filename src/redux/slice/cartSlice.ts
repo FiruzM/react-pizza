@@ -1,9 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export type ItemTypes = {
+  title: string;
+  imageUrl: string;
+  price: number;
+  id: string;
+  count: number;
+  type: string | number;
+  size: string | number;
+};
 export interface CartState {
   totalPrice: number;
-  items: [];
+  items: ItemTypes[];
 }
 
 const initialState: CartState = {
@@ -15,9 +23,9 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addItem: (state, action: PayloadAction<{ id: number; price: number }>) => {
+    addItem: (state, action: PayloadAction<ItemTypes>) => {
       const findItem = state.items.find(
-        (item: { id: number }) => item.id === action.payload.id
+        (item) => item.id === action.payload.id
       );
 
       if (findItem) {
@@ -34,26 +42,21 @@ export const cartSlice = createSlice({
       }, 0);
     },
 
-    minusItem: (state, action: PayloadAction<number>) => {
-      const findItem = state.items.find(
-        (item: { id: number }) => item.id === action.payload
-      );
+    minusItem: (state, action) => {
+      const findItem = state.items.find((item) => item.id === action.payload);
 
-      console.log(findItem.count);
-
-      if (findItem.count === 1) {
-        state.items = state.items.filter(
-          (item: { id: number }) => item.id !== findItem.id
-        );
+      if (findItem?.count === 1) {
+        state.items = state.items.filter((item) => item.id !== findItem.id);
       }
 
+      // @ts-expect-error undefined fintItem
       findItem.count--;
 
       state.totalPrice = state.items.reduce((sum, obj) => {
         return obj.price * obj.count + sum;
       }, 0);
     },
-    removeItem: (state, action: PayloadAction<number>) => {
+    removeItem: (state, action) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
 
       state.totalPrice = state.items.reduce((sum, obj) => {

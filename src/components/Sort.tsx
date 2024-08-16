@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { setSort } from "../redux/slice/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../redux/store";

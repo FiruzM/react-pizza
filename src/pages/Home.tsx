@@ -4,8 +4,8 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import Categories from "../components/Categories";
 import { useCallback, useEffect, useRef } from "react";
 import { Pagination } from "../components/Pagination";
-import type { RootState } from "../redux/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppDispatch, type RootState } from "../redux/store";
+import { useSelector } from "react-redux";
 import { setCategoryId, setFilters } from "../redux/slice/filterSlice";
 import { fetchPizza } from "../redux/slice/pizzaSlice";
 import qs from "qs";
@@ -18,12 +18,11 @@ const Home = () => {
   );
   const { items, status } = useSelector((state: RootState) => state.pizza);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const isMountedRef = useRef(false);
 
-  console.log(isMountedRef.current);
   const getPizza = () => {
     const category = categoryId ? `category=${categoryId}` : "";
     const sortBy = sort.sortProperty.replace("-", "");
@@ -37,7 +36,7 @@ const Home = () => {
         sortBy,
         order,
         search,
-      })
+      }) 
     );
   };
 
@@ -76,7 +75,7 @@ const Home = () => {
     }
 
     isMountedRef.current = true;
-  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
+  }, [categoryId, sort.sortProperty, searchValue, currentPage, navigate]);
 
   return (
     <>
@@ -99,14 +98,7 @@ const Home = () => {
           {status === "loading"
             ? [...new Array(6)].map((_, index) => <Skeleton key={index} />)
             : items.map(
-                (item: {
-                  id: number;
-                  title: string;
-                  price: number;
-                  imageUrl: string;
-                  sizes: number[];
-                  types: number[];
-                }) => <PizzaBlock {...item} key={item.id} />
+                (item) => <PizzaBlock {...item} key={item.id} />
               )}
         </div>
       )}
